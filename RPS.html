@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to bottom, #FFA500, #000000);
+            background-attachment: fixed;
+			font-size: 36px;
+        }
+		.score-container {
+			
+			font-size: 36px;
+			display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+		}
+		.score-box {
+            width: 400px;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            margin-left: 60px;
+			margin-right: 60px;
+            border-radius: 10px;
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.22);
+        }
+		.bot-score {
+			margin-bottom: 100px;
+		}
+        button {
+            font-size: 30px;
+            margin: 20px 80px;
+            padding: 120px 120px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+			background-position: center;
+			background-size: cover;
+			background-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.44);
+            transition: trasnform 0.2s;
+        }
+		.rockbutton {
+			background-image: url('rock.png');
+		}
+		.paperbutton {
+			background-image: url('paper.png');
+		}
+		.scissorsbutton {
+			background-image: url('scissors.png');
+		}
+        button:hover {
+            transform: scale(1.1);
+        }
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10%;
+        }
+		#result {
+			margin-top: 40px;
+			margin-bottom: 60px;
+            font-size: 40px;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		}
+    </style>
+
+
+</head>
+<body>
+    <h1>Kő  -  Papír  -  Olló</h1>
+	<div class="score-container">
+        <div class="score-box">
+			<div id="bot-score"><b>BOT - 0</b></div>
+			<div id="bot-choice"></div>
+		</div>
+		<div ><b>VS.</b></div>
+        <div class="score-box">
+			<div id="user-score"><b>User - 0</b></div>
+			<div id="user-choice"></div>
+		</div>
+    </div>
+	<div id="result"> </div>
+    <div class="choice-container" id="choices">
+        <button class="rockbutton" onclick="play('rock')"></button>
+        <button class="paperbutton" onclick="play('paper')"></button>
+        <button class="scissorsbutton" onclick="play('scissors')"> </button>
+    </div>
+	
+
+
+
+    <script>
+        let userScore = 0;
+        let computerScore = 0;
+
+        function play(userChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+			const finalChoice = userChoice + computerChoice;
+
+            if (finalChoice === 'rockscissors' || finalChoice === 'paperrock' || finalChoice === 'scissorspaper') {
+                userWins();
+            } else if (finalChoice === 'rockpaper' || finalChoice === 'paperscissors' || finalChoice === 'scissorsrock') {
+                computerWins();
+            } else {
+                draw();
+            }
+
+
+			updateUserChoice(userChoice);
+			updateBotChoice(computerChoice);
+        }
+
+        function userWins() {
+            userScore++;
+            updateScore('Győzelem');
+        }
+
+        function computerWins() {
+            computerScore++;
+            updateScore('Vereség');
+        }
+
+        function draw() {
+            updateScore('Döntetlen');
+        }
+
+        function updateScore(result) {
+            document.getElementById('bot-score').innerHTML = '<b>' + `BOT - ${computerScore}` + '</b>';
+			document.getElementById('user-score').innerHTML = '<b>' + `${userScore} - User` + '</b>';
+			switch (result) {
+				case 'Győzelem'  : document.getElementById('result').style.color = '#32FF00'; break;
+				case 'Vereség'   : document.getElementById('result').style.color = '#FF1E1E'; break;
+				case 'Döntetlen' : document.getElementById('result').style.color = '#FFE60A'; break;
+			}
+            document.getElementById('result').innerHTML = '<b>' + `${result}` + '</b>';
+        }
+		
+		
+		function updateUserChoice(userChoice) {
+            const userChoiceImg = document.createElement('img');
+            userChoiceImg.src = `${userChoice}.png`;
+            userChoiceImg.alt = userChoice;
+            userChoiceImg.classList.add('choice-image');
+            /*
+			const userChoiceText = document.createElement('div');
+			switch (userChoice) {
+				case 'rock'     : userChoiceText.innerText = 'Kő';    break;
+				case 'paper'    : userChoiceText.innerText = 'Papír'; break;
+				case 'scissors' : userChoiceText.innerText = 'Olló';  break;
+			}
+            userChoiceText.classList.add('choice-text');
+			*/
+            document.getElementById('user-choice').innerHTML = '';
+            document.getElementById('user-choice').appendChild(userChoiceImg);
+            //document.getElementById('user-choice').appendChild(userChoiceText);
+        }
+		
+		function updateBotChoice(computerChoice) {
+            const botChoiceImg = document.createElement('img');
+            botChoiceImg.src = `${computerChoice}.png`;
+            botChoiceImg.alt = computerChoice;
+            botChoiceImg.classList.add('choice-image');
+			/*
+            const botChoiceText = document.createElement('div');
+			switch (computerChoice) {
+				case 'rock'     : botChoiceText.innerText = 'Kő';    break;
+				case 'paper'    : botChoiceText.innerText = 'Papír'; break;
+				case 'scissors' : botChoiceText.innerText = 'Olló';  break;
+			}
+            botChoiceText.classList.add('choice-text');
+			*/
+            document.getElementById('bot-choice').innerHTML = '';
+            document.getElementById('bot-choice').appendChild(botChoiceImg);
+            //document.getElementById('bot-choice').appendChild(botChoiceText);
+        }
+		
+    </script>
+</body>
+</html>
