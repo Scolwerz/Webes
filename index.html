@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPS</title>
+    <link rel ="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Kő  -  Papír  -  Olló</h1>
+	<div class="score-container">
+        <div class="score-box">
+			<div id="bot-score"><b>BOT - 0</b></div>
+			<div id="bot-choice"></div>
+		</div>
+		<div ><b>VS.</b></div>
+        <div class="score-box">
+			<div id="user-score"><b>User - 0</b></div>
+			<div id="user-choice"></div>
+		</div>
+    </div>
+	<div id="result"> </div>
+    <div class="choice-container" id="choices">
+        <button class="rockbutton" onclick="play('rock')"></button>
+        <button class="paperbutton" onclick="play('paper')"></button>
+        <button class="scissorsbutton" onclick="play('scissors')"> </button>
+    </div>
+</body>
+</html>
